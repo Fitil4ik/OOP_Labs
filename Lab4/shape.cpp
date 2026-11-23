@@ -1,0 +1,25 @@
+#include "framework.h"
+#include "shape.h"
+
+void Shape::Set(long x1, long y1, long x2, long y2)
+{
+    xs1 = x1;
+    ys1 = y1;
+    xs2 = x2;
+    ys2 = y2;
+}
+
+void Shape::ShowRubber(HDC hdc)
+{
+    HPEN hPen = CreatePen(PS_DOT, 1, RGB(255, 0, 0));
+    HPEN hOldPen = (HPEN)SelectObject(hdc, hPen);
+    HBRUSH hOldBrush = (HBRUSH)SelectObject(hdc, GetStockObject(NULL_BRUSH));
+    int oldRop = SetROP2(hdc, R2_NOTXORPEN);
+
+    Show(hdc);
+
+    SetROP2(hdc, oldRop);
+    SelectObject(hdc, hOldBrush);
+    SelectObject(hdc, hOldPen);
+    DeleteObject(hPen);
+}
